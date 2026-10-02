@@ -1,0 +1,91 @@
+import type { Campaign, ForgeData, PlayerProfile, Quest } from "./types";
+
+export const mockPlayer: PlayerProfile = {
+  name: "Alex",
+  title: "Focused Builder",
+  xp: 1240,
+  level: 7,
+  xpToNextLevel: 1600,
+  streak: 0,
+  totalFocusMinutes: 438,
+  stats: { Development: 32, Creativity: 18, Learning: 28, Discipline: 24, Fitness: 8, Communication: 11 },
+};
+
+export const activeCampaign: Campaign = {
+  id: "python-developer",
+  title: "Python Developer",
+  subtitle: "Skill campaign · Chapter 2",
+  description: "Build the practical foundations for writing useful Python programs.",
+  level: "Foundations",
+  progress: 0,
+  completed: 0,
+  total: 4,
+  color: "from-orange-400 to-amber-200",
+  stage: "Control Flow Workshop",
+};
+
+export const quests: Quest[] = [
+  {
+    id: "variables",
+    campaignId: "python-developer",
+    title: "Shape your variables",
+    description: "Practice naming, assigning, and reusing values in a short exercise.",
+    difficulty: "Easy",
+    estimatedMinutes: 20,
+    xpReward: 80,
+    status: "available",
+    prerequisites: [],
+    statRewards: { Development: 2, Learning: 2, Discipline: 1 },
+    focusPrompt: "Create three meaningful variables and use them to describe a small project idea.",
+  },
+  {
+    id: "conditions",
+    campaignId: "python-developer",
+    title: "Route with conditions",
+    description: "Use if, elif, and else to make a tiny decision-making program.",
+    difficulty: "Standard",
+    estimatedMinutes: 30,
+    xpReward: 120,
+    status: "locked",
+    prerequisites: ["variables"],
+    statRewards: { Development: 3, Learning: 2, Discipline: 1 },
+    focusPrompt: "Write a simple program that gives a different recommendation based on a user’s study time.",
+  },
+  {
+    id: "loops",
+    campaignId: "python-developer",
+    title: "Build a repeatable loop",
+    description: "Turn repetitive work into a clean, deliberate for loop.",
+    difficulty: "Standard",
+    estimatedMinutes: 35,
+    xpReward: 140,
+    status: "locked",
+    prerequisites: ["conditions"],
+    statRewards: { Development: 3, Learning: 2, Discipline: 2 },
+    focusPrompt: "Use a loop to process five practice tasks and print a useful status message for each one.",
+  },
+  {
+    id: "function-boss",
+    campaignId: "python-developer",
+    title: "Boss Forge your first function",
+    description: "Combine inputs, logic, and a return value in a reusable utility.",
+    difficulty: "Boss",
+    estimatedMinutes: 50,
+    xpReward: 300,
+    status: "locked",
+    prerequisites: ["loops"],
+    statRewards: { Development: 6, Learning: 4, Discipline: 3 },
+    focusPrompt: "Create a function that accepts a goal and minutes available, then returns a focused next action.",
+  },
+];
+
+export const createDefaultForgeData = (): ForgeData => ({
+  version: 4,
+  player: { ...mockPlayer, stats: { ...mockPlayer.stats } },
+  campaigns: [{ ...activeCampaign }],
+  activeCampaignId: activeCampaign.id,
+  activeQuestId: null,
+  quests: quests.map((quest) => ({ ...quest, prerequisites: [...quest.prerequisites], statRewards: { ...quest.statRewards } })),
+  sessions: [],
+  lastReward: null,
+});
